@@ -31,8 +31,8 @@ public class ActorServiceImpl implements ActorService{
         if (result.isPresent()) {
             actor = result.get();
         } else {
-            // we didn't find the employee
-            throw new RuntimeException("Did not find employee id - " + id);
+
+            throw new RuntimeException("Did not find actor id - " + id);
         }
 
         return actor;

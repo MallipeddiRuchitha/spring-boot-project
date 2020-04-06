@@ -1,6 +1,7 @@
 package com.springboot.imdb.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +15,6 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 
 public class Actor {
     @Id
@@ -26,13 +26,13 @@ public class Actor {
 
     @Column(name="gender")
     private String gender;
-
+    //@JsonManagedReference
     @OneToMany(mappedBy = "actor")
     private List<MovieActor> movieActors;
-    @JsonIgnore // to break endless loop in bi-directional association
+    /*@JsonIgnore // to break endless loop in bi-directional association
     public List<MovieActor> getMovieActors() {
         return movieActors;
     }
 
-
+*/
 }

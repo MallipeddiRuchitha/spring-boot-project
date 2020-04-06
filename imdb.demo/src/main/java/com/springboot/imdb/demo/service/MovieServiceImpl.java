@@ -32,8 +32,8 @@ public class MovieServiceImpl implements MovieService {
         if (result.isPresent()) {
             movie = result.get();
         } else {
-            // we didn't find the employee
-            throw new RuntimeException("Did not find employee id - " + id);
+
+            throw new RuntimeException("Did not find movie id - " + id);
         }
 
         return movie;
