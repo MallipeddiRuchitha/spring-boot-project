@@ -43,7 +43,8 @@ public class Movie {
     // define constructors
    // @JsonManagedReference
     //@JsonIgnore
-    @OneToMany(mappedBy = "movie")
+
+    @OneToMany(mappedBy = "movie",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<MovieActor> movieActors;
 /*@JsonIgnore
     public List<MovieActor> getMovieActors() {

@@ -4,6 +4,7 @@ import com.springboot.imdb.demo.dao.ActorRepository;
 import com.springboot.imdb.demo.dao.MovieRepository;
 import com.springboot.imdb.demo.entity.Actor;
 import com.springboot.imdb.demo.entity.Movie;
+import com.springboot.imdb.demo.entity.MovieActor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public Movie findById(String id) {
-        Optional<Movie> result = movieRepository.findById(id);
+    public Optional<Movie> findById(String movieId) {
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (!movie.isPresent()) {
+            throw new RuntimeException("Movie id not found - " + movieId);
+        }
 
-        Movie movie= null;
+
+       /* Movie movie= null;
 
         if (result.isPresent()) {
             movie = result.get();
@@ -35,15 +40,41 @@ public class MovieServiceImpl implements MovieService {
 
             throw new RuntimeException("Did not find movie id - " + id);
         }
-
+*/
         return movie;
     }
-    @Override
-    public void save(Movie movie) {
+   // @Override
+   /* public void save(Movie movie) {
         movieRepository.save(movie);
     }
+*/
+   @Override
+   public Movie saveNewMovie(Movie movie){
+       String movieId=movie.getMovieId();
+       Optional<Movie> tempMovie = movieRepository.findById(movieId);
+       if (tempMovie.isPresent()) {
+           throw new RuntimeException("Movie id already exists - " + movieId);
+       }
 
+
+
+          return( movieRepository.save(movie));
+
+   }
     @Override
-    public void deleteById(String id) {movieRepository.deleteById(id);
+    public Movie updateMovie(Movie movie){
+
+        return(movieRepository.save(movie));
+
+    }
+    @Override
+    public void deleteById(String movieId) {
+
+        Optional<Movie> movie = movieRepository.findById(movieId);
+        if (!movie.isPresent()) {
+            throw new RuntimeException("Movie id not found - " + movieId);
+        }
+
+        movieRepository.deleteById(movieId);
     }
 }

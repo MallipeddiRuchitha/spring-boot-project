@@ -27,7 +27,7 @@ public class Actor {
     @Column(name="gender")
     private String gender;
     //@JsonManagedReference
-    @OneToMany(mappedBy = "actor")
+    @OneToMany(mappedBy = "actor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<MovieActor> movieActors;
     /*@JsonIgnore // to break endless loop in bi-directional association
     public List<MovieActor> getMovieActors() {

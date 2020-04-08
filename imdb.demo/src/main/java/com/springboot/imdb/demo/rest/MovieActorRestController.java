@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -32,11 +33,11 @@ public class MovieActorRestController {
     }
 
 
-    @GetMapping("/movieActors/{movieId}/{actorId}")
-    public MovieActor getMovieActor(@PathVariable String movieId,@PathVariable String actorId) {
+    @GetMapping("/movieActors/{movieId}")
+    public Optional<MovieActor> getMovieActor(@PathVariable String movieId,@PathVariable String actorId) {
 
-        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
-        MovieActor movieActor=movieActorService.findById(movieActorIdentity);
+       // MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
+        Optional<MovieActor> movieActor=movieActorService.findById( movieId, actorId);
        /* if (movieActor == null) {
             throw new RuntimeException("movie id not found - " + movieId);
         }
@@ -46,12 +47,12 @@ public class MovieActorRestController {
 
 
     @PostMapping("/movieActors")
-    public MovieActor addMovie(@RequestBody MovieActor movieActor) {
+    public MovieActor addMovieActor(@RequestBody MovieActor movieActor) {
 
 
 
 
-        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieActor.getMovieId(),movieActor.getActorId());
+        /*MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieActor.getMovieId(),movieActor.getActorId());
         try{
             movieActorService.findById(movieActorIdentity);
         }
@@ -59,29 +60,29 @@ public class MovieActorRestController {
             movieActorService.save(movieActor);
             return movieActor;
         }
-        throw new RuntimeException("MovieActor id already exists");
+        throw new RuntimeException("MovieActor id already exists");*/
 
+        movieActorService.saveNewMovieActor(movieActor);
 
-        // return actor;
+        return movieActor;
     }
 
 
     @PutMapping("/movieActors")
-    public MovieActor updateMovieActor(@RequestBody MovieActor movieActor) {
+    public MovieActor updateMovieActor(@RequestBody MovieActor movieActor){
 
-        movieActorService.save(movieActor);
+        movieActorService.updateMovieActor(movieActor);
 
         return movieActor;
     }
     @DeleteMapping("/movieActors/{movieId}/{actorId}")
     public String deleteMovie(@PathVariable String movieId,@PathVariable String actorId) {
 
-        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
-        MovieActor movieActor=movieActorService.findById(movieActorIdentity);
-        // throw exception if null
 
 
-        movieActorService.deleteById(movieActorIdentity);
+
+
+        movieActorService.deleteById(movieId,actorId);
         return "Deleted movieActor id - " + movieId+"   "+actorId;
     }
 

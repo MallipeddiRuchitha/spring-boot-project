@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 
 public class MovieRestController {
@@ -32,13 +34,10 @@ public class MovieRestController {
 
 
     @GetMapping("/movies/{movieId}")
-    public Movie getMovie(@PathVariable String movieId) {
+    public Optional<Movie> getMovie(@PathVariable String movieId) {
 
 
-        Movie movie=movieService.findById(movieId);
-        if (movie == null) {
-            throw new RuntimeException("movie id not found - " + movieId);
-        }
+       Optional<Movie> movie=movieService.findById(movieId);
 
         return movie;
     }
@@ -51,19 +50,19 @@ public class MovieRestController {
     }
     @PostMapping("/movies")
     public Movie addMovie(@RequestBody Movie movie) {
+        movieService.saveNewMovie(movie);
 
 
-
-        try{
+        /*try{
             movieService.findById(movie.getMovieId());
         }
         catch(RuntimeException exception){
             movieService.save(movie);
             return movie;
         }
-        throw new RuntimeException("Movie id already exists");
+        throw new RuntimeException("Movie id already exists");*/
 
-
+      return movie;
         // return actor;
     }
 
@@ -71,7 +70,7 @@ public class MovieRestController {
     @PutMapping("/movies")
     public Movie updateMovie(@RequestBody Movie movie) {
 
-        movieService.save(movie);
+        movieService.updateMovie(movie);
 
         return movie;
     }
@@ -79,7 +78,7 @@ public class MovieRestController {
     public String deleteMovie(@PathVariable String movieId) {
 
 
-        Movie movie=movieService.findById(movieId);
+        //Optional<Movie> movie=movieService.findById(movieId);
         // throw exception if null
 
 

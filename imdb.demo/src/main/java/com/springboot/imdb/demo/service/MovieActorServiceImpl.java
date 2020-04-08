@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class MovieActorServiceImpl implements MovieActorService{
+
     private MovieActorRepository movieActorRepository;
 
     @Autowired
@@ -26,38 +27,69 @@ public class MovieActorServiceImpl implements MovieActorService{
     }
 
     @Override
-    public MovieActor findById(MovieActorIdentity id) {
-        Optional<MovieActor> result = movieActorRepository.findById(id);
+    public Optional<MovieActor> findById(String movieId,String actorId) {
+        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
+        Optional<MovieActor> movieActor= movieActorRepository.findById(movieActorIdentity);
+        if (!movieActor.isPresent()) {
+            throw new RuntimeException("Did not find movie actor with movie id "+movieId+"  and actor Id "+actorId);
+        }
 
-        MovieActor movieActor = null;
+
+        /*MovieActor movieActor = null;
 
         if (result.isPresent()) {
             movieActor = result.get();
         } else {
 
             throw new RuntimeException("Did not find movie actor id - " + id);
-        }
+        }*/
 
         return movieActor;
     }
     @Override
-    public void save(MovieActor movieActor) {
-        movieActorRepository.save(movieActor);
+    public MovieActor saveNewMovieActor(MovieActor movieActor){
+        String movieId=movieActor.getMovieId();
+        String actorId=movieActor.getActorId();
+        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
+        Optional<MovieActor> tempMovieActor= movieActorRepository.findById(movieActorIdentity);
+        if (tempMovieActor.isPresent()) {
+
+            throw new RuntimeException("movie actor  already  exists with movie id "+movieId+"  and actor Id "+actorId);
+        }
+
+          return( movieActorRepository.save(movieActor));
+
+    }
+    @Override
+    public MovieActor updateMovieActor(MovieActor movieActor){
+
+        return(movieActorRepository.save(movieActor));
+
     }
 
+
     @Override
-    public void deleteById(MovieActorIdentity id) {
-        movieActorRepository.deleteById(id);
+    public void deleteById(String movieId,String actorId) {
+        MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
+        Optional<MovieActor> movieActor= movieActorRepository.findById(movieActorIdentity);
+        if (!movieActor.isPresent()) {
+            throw new RuntimeException("Did not find movie actor with movie id "+movieId+"  and actor Id "+actorId);
+        }
+
+
+        movieActorRepository.deleteById(movieActorIdentity);
     }
 
 
     @Override
     public List<Actor> findActorsByMovieId(String movieId){
 
-    return movieActorRepository.findActorsByMovieId(movieId);
+    return movieActorRepository.findActorByMovieId(movieId);
     }
     @Override
     public List<Movie> findMoviesByActorId(String actorId){
+       /* Optional<Movie> movie=movieActorRepository.findMovieByActorId(actorId);
+        if(!movie.isPresent())*/
 
         return movieActorRepository.findMoviesByActorId(actorId);
     }

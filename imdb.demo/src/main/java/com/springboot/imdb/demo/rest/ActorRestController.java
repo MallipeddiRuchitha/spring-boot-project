@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 
 public class ActorRestController {
@@ -29,13 +31,22 @@ public class ActorRestController {
         return actorService.findAll();
     }
 
+    @GetMapping("/actors/{actorId}")
+    public Optional<Actor> getMovie(@PathVariable String actorId) {
 
+
+
+
+        return actorService.findById(actorId);
+    }
 
 
     @GetMapping("/actors/{actorId}/movies")
     public List<Movie> findMoviesOfActor(@PathVariable String actorId)
 
-    { return movieActorService.findMoviesByActorId(actorId);
+    {  // Optional<Movie> movie=movieActorService.findMoviesByActorId(actorId);
+
+        return movieActorService.findMoviesByActorId(actorId);
 
 
 
@@ -44,9 +55,9 @@ public class ActorRestController {
     @PostMapping("/actors")
     public Actor addActor(@RequestBody Actor actor) {
 
+       return( actorService.saveNewActor(actor));
 
-
-try{
+/*try{
     actorService.findById(actor.getActorId());
 }
 catch(RuntimeException exception){
@@ -55,32 +66,32 @@ catch(RuntimeException exception){
         }
         throw new RuntimeException("Actor id already exists");
 
-
-       // return actor;
+*/
+        //return actor;
     }
 
 
     @PutMapping("/actors")
     public Actor updateActor(@RequestBody Actor actor) {
 
-        actorService.save(actor);
+        return (actorService.updateActor(actor));
 
-        return actor;
+
     }
     @DeleteMapping("/actors/{actorId}")
     public String deleteActor(@PathVariable String actorId) {
 
 
-Actor actor=actorService.findById(actorId);
+//Optional<Actor> actor=actorService.findById(actorId);
         // throw exception if null
 
-        if (actor == null) {
+        /*if (actor == null) {
             throw new RuntimeException("Actor id not found - " + actorId);
-        }
+        }*/
 
-        actorService.deleteById(actorId);
+        return(actorService.deleteById(actorId));
 
-        return "Deleted actor id - " + actorId;
+
     }
 
 

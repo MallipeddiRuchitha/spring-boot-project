@@ -23,28 +23,44 @@ public class ActorServiceImpl implements ActorService{
     }
 
     @Override
-    public Actor findById(String id) {
-        Optional<Actor> result = actorRepository.findById(id);
-
-        Actor actor = null;
-
-        if (result.isPresent()) {
-            actor = result.get();
-        } else {
-
-            throw new RuntimeException("Did not find actor id - " + id);
+    public Optional<Actor> findById(String actorId) {
+        Optional<Actor> actor = actorRepository.findById(actorId);
+        if (!actor.isPresent()) {
+            throw new RuntimeException("Actor id not found - " + actorId);
         }
+
 
         return actor;
     }
+
     @Override
-    public void save(Actor actor) {
-        actorRepository.save(actor);
+    public Actor saveNewActor(Actor actor){
+        String actorId=actor.getActorId();
+        Optional<Actor> tempActor = actorRepository.findById(actorId);
+        if (tempActor.isPresent()) {
+            throw new RuntimeException("Actor id already exists - " + actorId);
+        }
+
+            //actorRepository.save(actor);
+
+        return actorRepository.save(actor);
+    }
+    @Override
+    public Actor updateActor(Actor actor){
+
+            return actorRepository.save(actor);
+
+
     }
 
     @Override
-    public void deleteById(String id) {
-        actorRepository.deleteById(id);
+    public String deleteById(String actorId) {
+        Optional<Actor> actor = actorRepository.findById(actorId);
+        if (!actor.isPresent()) {
+            throw new RuntimeException("Actor id not found - " + actorId);
+        }
+        actorRepository.deleteById(actorId);
+        return "Deleted actor id - " + actorId;
     }
 
 }

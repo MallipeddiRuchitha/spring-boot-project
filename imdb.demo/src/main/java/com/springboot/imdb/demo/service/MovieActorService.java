@@ -6,17 +6,21 @@ import com.springboot.imdb.demo.entity.MovieActor;
 import com.springboot.imdb.demo.model.MovieActorIdentity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MovieActorService {
 
     List<MovieActor> findAll();
 
-    MovieActor findById(MovieActorIdentity id);
+    Optional<MovieActor> findById(String movieId,String actorId);
 
-    void save(MovieActor movieActor);
+    //void save(MovieActor movieActor);
+    MovieActor saveNewMovieActor(MovieActor movieActor);
+    MovieActor updateMovieActor(MovieActor movieActor);
 
 
-    void deleteById(MovieActorIdentity id);
+
+    void deleteById(String movieId,String actorId);
 
      List<Actor> findActorsByMovieId(String movieId);
 

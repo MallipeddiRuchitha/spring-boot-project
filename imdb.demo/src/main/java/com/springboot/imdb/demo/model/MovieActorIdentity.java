@@ -24,14 +24,14 @@ public class MovieActorIdentity implements Serializable {
     @Column(name="actor_id")
     private String actorId;
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (object == null || getClass() != object.getClass()) return false;
 
-        MovieActorIdentity that = (MovieActorIdentity) o;
+        MovieActorIdentity movieActorIdentity = (MovieActorIdentity) object;
 
-        if (!movieId.equals(that.movieId)) return false;
-        return actorId.equals(that.actorId);
+        if (!movieId.equals( movieActorIdentity.movieId)) return false;
+        return actorId.equals( movieActorIdentity.actorId);
     }
 
     @Override
