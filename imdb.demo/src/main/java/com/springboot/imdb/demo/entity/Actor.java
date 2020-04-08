@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Entity
 @Table(name="actor")
 @Getter
@@ -35,4 +36,48 @@ public class Actor {
     }
 
 */
+
+   /* public String getActorId() {
+        return actorId;
+    }
+
+    public void setActorId(String actorId) {
+        this.actorId = actorId;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public List<MovieActor> getMovieActors() {
+        return movieActors;
+    }
+
+    public void setMovieActors(List<MovieActor> movieActors) {
+        this.movieActors = movieActors;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Actor(String actorId,String name,String gender,List<MovieActor> movieActors) {
+        this.actorId = actorId;
+        this.name=name;
+        this.gender=gender;
+        this.movieActors=movieActors;
+    }
+
+    public Actor() {
+    }
+    */
+
 }

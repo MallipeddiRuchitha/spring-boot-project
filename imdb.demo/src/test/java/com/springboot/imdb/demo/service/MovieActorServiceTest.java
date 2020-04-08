@@ -7,8 +7,10 @@ import com.springboot.imdb.demo.entity.Movie;
 import com.springboot.imdb.demo.entity.MovieActor;
 import com.springboot.imdb.demo.model.MovieActorIdentity;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,15 +25,21 @@ import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@RunWith(MockitoJUnitRunner.class)
 class MovieActorServiceTest {
 
-    @Autowired
+    //@Autowired
     private MovieActorService movieActorService;
 
-    @MockBean
+    //@MockBean
     private MovieActorRepository movieActorRepository;
+    @BeforeEach
+    public  void init(){
+        movieActorRepository=mock(MovieActorRepository.class);
+        movieActorService=new MovieActorServiceImpl(movieActorRepository);
+        //MockitoAnnotations.initMocks(this);
+    }
+
 
     @Test
     void findAll() {

@@ -1,11 +1,14 @@
 package com.springboot.imdb.demo.service;
 
+import com.springboot.imdb.demo.dao.MovieActorRepository;
 import com.springboot.imdb.demo.dao.MovieRepository;
 import com.springboot.imdb.demo.entity.Actor;
 import com.springboot.imdb.demo.entity.Movie;
 import org.junit.Assert;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,15 +21,22 @@ import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+/*@RunWith(SpringRunner.class)
+@SpringBootTest*/
+@RunWith(MockitoJUnitRunner.class)
 
 class MovieServiceTest {
-    @Autowired
+   // @Autowired
     private MovieService movieService;
 
-    @MockBean
+    //@MockBean
     private MovieRepository movieRepository;
+    @BeforeEach
+    public  void init(){
+        movieRepository=mock(MovieRepository.class);
+        movieService=new MovieServiceImpl(movieRepository);
+        //MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     void findAll() {

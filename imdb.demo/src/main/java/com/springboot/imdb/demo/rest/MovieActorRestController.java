@@ -33,7 +33,7 @@ public class MovieActorRestController {
     }
 
 
-    @GetMapping("/movieActors/{movieId}")
+    @GetMapping("/movieActors/{movieId}/{actorId}")
     public Optional<MovieActor> getMovieActor(@PathVariable String movieId,@PathVariable String actorId) {
 
        // MovieActorIdentity movieActorIdentity=new MovieActorIdentity(movieId,actorId);
