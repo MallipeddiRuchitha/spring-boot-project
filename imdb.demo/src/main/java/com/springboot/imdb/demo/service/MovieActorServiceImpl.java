@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class MovieActorServiceImpl implements MovieActorService{
 
@@ -83,15 +85,26 @@ public class MovieActorServiceImpl implements MovieActorService{
 
     @Override
     public List<Actor> findActorsByMovieId(String movieId){
+        List<MovieActor> movieActors=movieActorRepository.findByMovieId(movieId);
+        List<Actor> actors =  movieActors.stream()
+                .map(movieActor -> movieActor.getActor())
+                .collect(Collectors.toList());
 
-    return movieActorRepository.findActorByMovieId(movieId);
+        return actors;
     }
     @Override
     public List<Movie> findMoviesByActorId(String actorId){
        /* Optional<Movie> movie=movieActorRepository.findMovieByActorId(actorId);
         if(!movie.isPresent())*/
+        List<MovieActor> movieActors=movieActorRepository.findByActorId(actorId);
+        List<Movie> movies =  movieActors.stream()
+                .map(movieActor -> movieActor.getMovie())
+                .collect(Collectors.toList());
 
-        return movieActorRepository.findMoviesByActorId(actorId);
+        return movies;
+
+        //return movieActorRepository.findMoviesByActorId(actorId);
     }
 }
+
 

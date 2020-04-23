@@ -15,14 +15,17 @@ import java.util.Optional;
 @Repository
 public interface MovieActorRepository extends CrudRepository<MovieActor, MovieActorIdentity> {
 
-    @Query("SELECT m.actor FROM MovieActor m  WHERE m.movieId=(:movieId)")
+    /*@Query("SELECT m.actor FROM MovieActor m  WHERE m.movieId=(:movieId)")
 
-     List<Actor> findActorByMovieId( @Param("movieId") String movieId);
+     List<Actor> findActorByMovieId( @Param("movieId") String movieId);*/
+    List<MovieActor> findByMovieId(String movieId);
 
-    @Query("SELECT m.movie FROM MovieActor m  WHERE m.actorId=(:actorId)")
-     List<Movie> findMoviesByActorId(@Param("actorId") String actorId);
+    /*@Query("SELECT m.movie FROM MovieActor m  WHERE m.actorId=(:actorId)")
+     List<Movie> findMoviesByActorId(@Param("actorId") String actorId);*/
 
+    List<MovieActor> findByActorId( String actorId);
    // Optional<MovieActor> findByIdMovieIdAndIdActorId(String movieId, String actorId);
 
 
 }
+

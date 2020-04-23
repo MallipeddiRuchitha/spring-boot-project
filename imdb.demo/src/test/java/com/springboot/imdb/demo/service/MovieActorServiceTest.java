@@ -126,10 +126,12 @@ class MovieActorServiceTest {
     }
     @Test
     void findActorsByMovieId() {
-        when(movieActorRepository.findActorByMovieId("M123")).thenReturn(Stream.of(
-                new Actor("A123","ram","M",null),new Actor("A234","leo","F",null)).collect(Collectors.toList()));
-        assertEquals(2,movieActorService.findActorsByMovieId("M123").size());
-        when(movieActorRepository.findActorByMovieId("M1234")).thenReturn(new ArrayList<Actor>());
+        when(movieActorRepository.findByMovieId("M123")).thenReturn(Stream.of(
+                new MovieActor("M123","A123","hero",new Movie("M123","movie1","director1",7,"1h30min","its about suspicious murder case","horror",null),new Actor("A123","ram","M",null))  )
+                        .collect(Collectors.toList()));
+                //new Actor("A123","ram","M",null),new Actor("A234","leo","F",null)).collect(Collectors.toList()));
+        assertEquals(1,movieActorService.findActorsByMovieId("M123").size());
+        when(movieActorRepository.findByMovieId("M1234")).thenReturn(new ArrayList<MovieActor>());
         assertEquals(0,movieActorService.findActorsByMovieId("M1234").size());
 
 
@@ -137,12 +139,13 @@ class MovieActorServiceTest {
 
     @Test
     void findMoviesByActorId() {
-        when(movieActorRepository.findMoviesByActorId("A123")).thenReturn(Stream.of(
-                new Movie("M123","movie1","director1",7,"1h30min","its about suspicious murder case","horror",null),
-                new Movie("M1234","movie2","director2",6,"1h30min","its about suspicious murder case","horror",null))
+        when(movieActorRepository.findByActorId("A123")).thenReturn(Stream.of(
+                new MovieActor("M123","A123","hero",new Movie("M123","movie1","director1",7,"1h30min","its about suspicious murder case","horror",null),new Actor("A123","ram","M",null))  )
+               // new Movie("M123","movie1","director1",7,"1h30min","its about suspicious murder case","horror",null),
+               // new Movie("M1234","movie2","director2",6,"1h30min","its about suspicious murder case","horror",null))
                 .collect(Collectors.toList()));
-        assertEquals(2,movieActorService.findMoviesByActorId("A123").size());
-        when(movieActorRepository.findMoviesByActorId("A1234")).thenReturn(new ArrayList<Movie>());
+        assertEquals(1,movieActorService.findMoviesByActorId("A123").size());
+        when(movieActorRepository.findByActorId("A1234")).thenReturn(new ArrayList<MovieActor>());
         assertEquals(0,movieActorService.findMoviesByActorId("A1234").size());
 
 
